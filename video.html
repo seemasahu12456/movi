@@ -10,45 +10,59 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
+        body {
+            margin: 0;
+            background: #000;
+            color: #fff;
+            font-family: Arial;
+        }
+
+        /* center container */
+        .player-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* video center */
+        .player-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        /* responsive video */
         iframe,
         video {
-             width: 315px;
-            height: 400px;
+            width: 90%;
+            max-width: 900px;
+            height: 500px;
             border: 0;
             background: #000;
+            border-radius: 10px;
+        }
+
+        .video-title {
+            text-align: center;
+            margin-top: 15px;
         }
     </style>
-
 </head>
 
-<body class="player-page">
-
-    <div class="player-header">
-        <a href="index.html" class="back-btn">
-            <i class="fas fa-arrow-left"></i>
-            <span class="back-text">Back</span>
-        </a>
-
-        <div class="player-title">
-            <i class="fas fa-play-circle"></i>
-            <span>Now Playing</span>
-        </div>
-    </div>
+<body>
 
     <div class="player-container">
-        <div class="player-wrapper">
 
-            <!-- player container -->
-            <div id="videoBox"></div>
-
-        </div>
+        <div id="videoBox" class="player-wrapper"></div>
 
         <div class="video-info">
-            <h2 class="video-title" id="videoTitle">Loading Video...</h2>
+            <h2 class="video-title" id="videoTitle">Loading...</h2>
         </div>
-    </div>
 
-    <div class="floating-particles" id="particles"></div>
+    </div>
 
     <script>
         const params = new URLSearchParams(location.search);
@@ -56,54 +70,33 @@
         const title = params.get("title") || "UltraTube Video";
 
         document.getElementById("videoTitle").textContent = title;
-
         const box = document.getElementById("videoBox");
 
-        // ===== VIDEO TYPE DETECT =====
         if (!src) {
-            box.innerHTML = "<h2 style='color:white'>No video</h2>";
+            box.innerHTML = "<h2>No video</h2>";
         }
-        else if (src.includes(".mp4") || src.includes(".m3u8")) {
-            // direct video
+
+        /* MP4 video */
+        else if (src.includes(".mp4")) {
             box.innerHTML = `
-  <iframe src="${src}"
-        style="border:none;overflow:hidden" scrolling="no" frameborder="0"
-        allowfullscreen="true">
-    </iframe>`;
+    <video controls autoplay>
+        <source src="${src}" type="video/mp4">
+    </video>`;
         }
 
+        /* m3u8 */
+        else if (src.includes(".m3u8")) {
+            box.innerHTML = `
+    <video controls autoplay src="${src}"></video>`;
+        }
 
+        /* iframe embed */
         else {
-            // iframe video
             box.innerHTML = `
-<iframe src="${src}" allowfullscreen allow="autoplay; encrypted-media"></iframe>`;
+    <iframe src="${src}" allowfullscreen allow="autoplay"></iframe>`;
         }
-
-        // particles
-        function createParticles() {
-            const container = document.getElementById('particles');
-            for (let i = 0; i < 20; i++) {
-                const p = document.createElement('div');
-                p.className = 'particle';
-                p.style.left = Math.random() * 100 + '%';
-                p.style.animationDelay = Math.random() * 5 + 's';
-                container.appendChild(p);
-            }
-        }
-        createParticles();
     </script>
 
 </body>
 
-
-
 </html>
-
-
-
-
-
-
-
-
-
