@@ -610,10 +610,7 @@ body {
 }
 
 .player-container {
-     position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
@@ -998,3 +995,4 @@ body {
     background: linear-gradient(180deg, var(--primary), var(--secondary));
 
 }
+
